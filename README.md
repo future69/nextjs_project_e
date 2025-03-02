@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Project Info:
 
-## Getting Started
+Project E is a simple SaaS dashboard for expense management built with Next.js and PostgreSQL. The app allows users to manage their expenses, register new users, and track their spending.
 
-First, run the development server:
+Prerequisites
+Before you begin, make sure you have the following installed:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Docker and Docker Compose
+Node.js (if you want to build locally without Docker)
+PostgreSQL (if running the database outside Docker)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Running the Project
+   Using Docker
+   In the project root directory, run the following command:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   docker-compose up --build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Setup and Installation (If Required)
+   Install project dependencies:
+   pnpm install
 
-## Learn More
+This will build the Docker images and start the containers for both the Next.js app and PostgreSQL database.
 
-To learn more about Next.js, take a look at the following resources:
+Once the containers are up, open http://localhost:3000/login in your browser to access the app.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Demo Account
+   email: alice@example.com
+   password: hashedpassword1
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Running the App Locally
+If you want to run the app outside of Docker, follow these steps:
 
-## Deploy on Vercel
+Install dependencies:
+pnpm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Run the development server:
+pnpm run dev
+Access the app at http://localhost:3000/login.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Database Setup
+The app uses PostgreSQL to store user and expense data. The database is set up and populated automatically when you run the app via Docker.
+
+Initial Database Schema
+The following tables are created:
+
+users: Stores user information (email and password hash).
+expenses: Stores expenses linked to users, including descriptions, amounts, and dates.
+You can see the schema defined in db.sql, which is run on database startup.
+
+Database Migration
+If you need to migrate the database manually (outside of Docker), you can run the SQL queries defined in db.sql on your PostgreSQL database.
+
+Environment Variables
+This project requires the following environment variables:
+
+env
+Copy
+Edit
+POSTGRES_URL="postgres://postgres:admin@localhost:5432/project_e_db"
+SESSION_SECRET="your-session-secret"
+Make sure to replace SESSION_SECRET with a strong secret key. You can place these in a .env file in the root of your project.
+
+Docker Usage
+If you want to run this project in a Docker container, make sure the following files are in place:
+
+docker-compose.yml: Defines the services (app and database).
+Dockerfile: Describes the build process for the app.
+db.sql: Initializes the PostgreSQL database schema and seed data.
+To share the Docker image, you can push it to a Docker registry like Docker Hub:
+
+License
+This project is licensed under the MIT License - see the LICENSE file for details.

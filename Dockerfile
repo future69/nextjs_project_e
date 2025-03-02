@@ -4,18 +4,23 @@ FROM node:18-alpine
 # Set working directory inside the container
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json package-lock.json ./
-RUN npm install --production
+# Install pnpm globally
+RUN npm install -g pnpm
 
-# Copy the entire project
+# Copy package.json and pnpm-lock.yaml first to leverage Docker cache
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies using pnpm (add --frozen-lockfile to ensure consistency)
+RUN pnpm install --frozen-lockfile
+
+# Copy the entire project files
 COPY . .
 
 # Build the Next.js app
-RUN npm run build
+RUN pnpm build
 
-# Expose the port Next.js runs on
+# Expose port 3000
 EXPOSE 3000
 
-# Start the Next.js application
-CMD ["npm", "run", "start"]
+# Start the application
+CMD ["pnpm", "start"]

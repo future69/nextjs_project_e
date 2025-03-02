@@ -17,9 +17,9 @@ CREATE TABLE expenses (
 
 -- Insert Users
 INSERT INTO users (email, password_hash) VALUES
-('alice@example.com', '"$2b$10$Gv8rFw6KkHqavGYqGSkJkOQNC2x.SFP22zp9gTTRXY8yTOWBc3CRa"'),
-('bob@example.com', '"$2b$10$Gv8rFw6KkHqavGYqGSkJkOQNC2x.SFP22zp9gTTRXY8yTOWBc3CRa"'),
-('charlie@example.com', '"$2b$10$Gv8rFw6KkHqavGYqGSkJkOQNC2x.SFP22zp9gTTRXY8yTOWBc3CRa"');
+('alice@example.com', '$2b$10$Gv8rFw6KkHqavGYqGSkJkOQNC2x.SFP22zp9gTTRXY8yTOWBc3CRa'),
+('bob@example.com', '$2b$10$Gv8rFw6KkHqavGYqGSkJkOQNC2x.SFP22zp9gTTRXY8yTOWBc3CRa'),
+('charlie@example.com', '$2b$10$Gv8rFw6KkHqavGYqGSkJkOQNC2x.SFP22zp9gTTRXY8yTOWBc3CRa');
 
 -- Insert Expenses for Alice (user_id = 1)
 INSERT INTO expenses (user_id, description, amount) VALUES 
@@ -44,4 +44,3 @@ INSERT INTO expenses (user_id, description, amount) VALUES
 (3, 'Dining at Restaurant', 60.00),
 (3, 'Shopping', 120.00),
 (3, 'Museum Tickets', 30.00);
-
