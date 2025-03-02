@@ -11,8 +11,10 @@ PostgreSQL (if running the database outside Docker)
 
 1. Running the Project
    Using Docker
-   In the project root directory, run the following command:
 
+   Please paste .env file into root directory (nextjs_project_e)
+
+   In the project root directory, run the following command:
    docker-compose up --build
 
 2. Setup and Installation (If Required)
