@@ -5,26 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
-import { login } from "@/app/login/actions";
+import { SignUp } from "@/app/login/actions";
 import { useFormStatus } from "react-dom";
+import Link from "next/link";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"form">) {
+export function SignupForm() {
   //useActionState, logInAction is assigned to login function in /actions,
   //when form is submitted, that action is called with the data as props
-  const [state, logInAction] = useActionState(login, undefined);
+  const [state, signUpAction] = useActionState(SignUp, undefined);
   return (
-    <form
-      action={logInAction}
-      className={cn("flex flex-col gap-6", className)}
-      {...props}
-    >
-      <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
-        <p className="text-muted-foreground text-sm text-balance">
-          Enter your email below to login to your account
+    <form action={signUpAction}>
+      <div className="flex flex-col items-center gap-2 text-center pb-2">
+        <h1 className="text-2xl font-bold">Sign Up Now!</h1>
+        <p className="text-muted-foreground text-sm text-balance ">
+          It's Free!
         </p>
       </div>
       <div className="grid gap-6">
@@ -48,12 +42,12 @@ export function LoginForm({
           <p className="text-red-500">{state.errors.email}</p>
         )}
         <SubmitButton />
-      </div>
-      <div className="text-center text-sm">
-        Don't have an account?{" "}
-        <a href="/login/signup" className="underline underline-offset-4">
-          Sign up
-        </a>
+        <Link
+          href="/login"
+          className="flex h-10 items-center justify-center rounded-lg bg-blue-200 px-4 text-sm font-medium text-black transition-colors hover:bg-gray-200"
+        >
+          Cancel
+        </Link>
       </div>
     </form>
   );
@@ -65,7 +59,7 @@ export function LoginForm({
 
     return (
       <Button disabled={pending} type="submit">
-        Login
+        Create Account
       </Button>
     );
   }

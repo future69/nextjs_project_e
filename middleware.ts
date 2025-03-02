@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "./lib/session";
 
 const protectedRoutes = ["/dashboard", "/dashboard/"];
-const publicRoutes = ["/login"];
+const publicRoutes = ["/login", "/login/signup"];
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
@@ -17,8 +17,6 @@ export default async function middleware(req: NextRequest) {
   const cookieStore = await cookies();
   const cookie = cookieStore.get("session")?.value;
   const session = await decrypt(cookie);
-
-  //console.log(cookie);
 
   //If the route requires a session, and there is no session, redirect to login
   if (isProtectedRoute && !session?.userId) {

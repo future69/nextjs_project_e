@@ -2,39 +2,6 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-//Dashbord cards, contain UI as well as fetched data
-//Data should be pre processed
-export default async function DashboardCards() {
-  return (
-    <>
-      <Card className="col-span-2 pb-20 pr-10">
-        <CardHeader>
-          <CardTitle className="text-lg">Card Title</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-      </Card>
-      <Card className="col-span-2  pb-20 pr-10 ">
-        <CardHeader>
-          <CardTitle className="text-lg">Card Title</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-      </Card>
-      <Card className="col-span-2  pb-20 pr-10">
-        <CardHeader>
-          <CardTitle className="text-lg">Card Title</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-      </Card>
-    </>
-  );
-}
-
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div

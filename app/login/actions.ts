@@ -7,6 +7,7 @@ import { errors } from "jose";
 import postgres from "postgres";
 import bcrypt from "bcryptjs";
 import { User } from "lucide-react";
+import sql from "../../lib/db";
 
 type User = {
   id: number;
@@ -15,7 +16,7 @@ type User = {
 };
 
 //Remove required SSL encryption for testing purposes with local postgresDB
-const sql = postgres(process.env.POSTGRES_URL!);
+//const sql = postgres(process.env.POSTGRES_URL!);
 
 //Gets user data and validates
 export async function getUser(email: string): Promise<User | null> {
@@ -25,6 +26,18 @@ export async function getUser(email: string): Promise<User | null> {
   } catch (error) {
     console.error("Failed to fetch user:", error);
     throw new Error("Failed to fetch user.");
+  }
+}
+
+//Gets creates user
+async function addUser(email: string, password: string) {
+  try {
+    await sql`
+    INSERT INTO users (email, password_hash) 
+    VALUES (${email}, ${password});`;
+  } catch (error) {
+    console.error("Error", error);
+    throw new Error("Error");
   }
 }
 
@@ -40,17 +53,16 @@ const loginSchema = z.object({
 //Login function validates input and does authentication of input with DB
 export async function login(prevState: any, formData: FormData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData));
-
   //If validation fails
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
+      errors: {
+        email: ["Password must be at least 8 characters"],
+      },
     };
   }
-
   //Data that user has input
   const { email, password } = result.data;
-
   //Data retrieved from db matching the email
   const user = await getUser(email);
 
@@ -58,29 +70,54 @@ export async function login(prevState: any, formData: FormData) {
   if (!user?.password_hash) {
     return {
       errors: {
-        email: ["An error occurred. Please try again later."],
+        email: ["Incorrect Email or Password."],
       },
     };
   }
 
-  //----------------------------Remember to add hashing as a check, it checks raw for now
-  //  if (!user || !passwordsMatch) {
   //Uses bcrypt library to compare hashed passwords
-  //const passwordsMatch = await bcrypt.compare(password, user.password_hash);
+  const passwordsMatch = await bcrypt.compare(password, user.password_hash);
 
   //If authentication fails
-  if (!user || password !== user.password_hash) {
-    console.log("passwords wrong check hash");
+  if (!user || !passwordsMatch) {
     return {
       errors: {
         email: ["Invalid email or password"],
       },
     };
   }
-
   //Session cookie is created @ session.ts, using id as field
   await createSession(user.id.toString());
   redirect("/dashboard");
+}
+
+//SignUp function validates input and creates new user in DB
+export async function SignUp(prevState: any, formData: FormData) {
+  const result = loginSchema.safeParse(Object.fromEntries(formData));
+  //If validation fails
+  if (!result.success) {
+    return {
+      errors: {
+        email: ["Password must be at least 8 characters"],
+      },
+    };
+  }
+  //Data that user has input
+  const { email, password } = result.data;
+  //Data retrieved from db matching the email
+  const user = await getUser(email);
+  if (user !== null) {
+    return {
+      errors: {
+        email: ["Email already exists"],
+      },
+    };
+  }
+
+  //Hashes password using bcrypt
+  const password_hash = await bcrypt.hash(password, 10);
+  addUser(email, password_hash);
+  redirect("/login");
 }
 
 export async function logout() {

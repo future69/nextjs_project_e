@@ -27,34 +27,28 @@ export default async function ExpensesTable() {
   return (
     <Card className="rounded-xl">
       <CardHeader>
-        <CardTitle className="text-2xl">Owned Expenses List</CardTitle>
-        <CardDescription>Here's all the expenses lists you own</CardDescription>
+        <CardTitle className="text-2xl">Expenses List</CardTitle>
+        <CardDescription>Here's all the expenses you have</CardDescription>
       </CardHeader>
       <Table className="min-h-[320px]">
-        <TableCaption>Owned Expenses List</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">List Name</TableHead>
-            <TableHead className="text-center">Quantity Of Expenses</TableHead>
+            <TableHead className="w-[100px]">Expense Description</TableHead>
             <TableHead className="text-center">Amount</TableHead>
-
-            <TableHead className="text-right">Created Date</TableHead>
+            <TableHead className="text-center">Created Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {expensesData.map((data) => (
-            <TableRow>
+            <TableRow key={data.expeneseId}>
               <TableCell className="font-medium">
-                {data.expenseListName}
+                {data.expenseDescription}
               </TableCell>
               <TableCell className="text-center">
-                {data.expenseListQuantity}
+                {data.expenseAmount}
               </TableCell>
               <TableCell className="text-center">
-                {data.expenseListTotalValue}
-              </TableCell>
-              <TableCell className="text-right">
-                {new Date(data.expenseListDate).toLocaleDateString()}
+                {new Date(data.expenseDate).toLocaleDateString()}
               </TableCell>
             </TableRow>
           ))}
