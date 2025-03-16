@@ -19,15 +19,14 @@ export default async function Page() {
     <main>
       <div className="flex-grow p-6 items-center items-stretch">
         <div className="text-2xl font-bold text-black pb-5">Dashboard</div>
-
-        <div className="grid grid-cols-6 gap-8 items-center">
+        <div className="grid grid-cols-6 gap-4 items-center">
           <DashboardCards />
         </div>
-        <div className="grid grid-cols-10 gap-6 pt-6">
-          <div className="col-span-5">
+        <div className="grid grid-cols-10 gap-4 pt-3">
+          <div className="col-span-4">
             <ShadPieChart data={chartData} />
           </div>
-          <div className="col-span-5">
+          <div className="col-span-6">
             <ExpensesTable />
           </div>
         </div>

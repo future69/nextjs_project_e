@@ -16,7 +16,8 @@ export async function createSession(userId: string) {
 
   cookieStore.set("session", session, {
     httpOnly: true,
-    secure: true,
+    //Set secure to false, as safari wont allow cookie to be stored if using localhost
+    secure: false,
     expires: expiresAt,
   });
 }

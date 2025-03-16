@@ -18,8 +18,13 @@ export default async function middleware(req: NextRequest) {
   const cookie = cookieStore.get("session")?.value;
   const session = await decrypt(cookie);
 
-  //If the route requires a session, and there is no session, redirect to login
+  //If user is at default index page, redirect to login
+  if (path === "/" && !session?.userId) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
+
   if (isProtectedRoute && !session?.userId) {
+    //If the route requires a session, and there is no session, redirect to login
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 

@@ -25,35 +25,43 @@ export default async function ExpensesTable() {
   const expensesData = await fetchOwnedExpensesList(userId); // Fetching expenses data
 
   return (
-    <Card className="rounded-xl">
-      <CardHeader>
-        <CardTitle className="text-2xl">Expenses List</CardTitle>
-        <CardDescription>Here's all the expenses you have</CardDescription>
-      </CardHeader>
-      <Table className="min-h-[320px]">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Expense Description</TableHead>
-            <TableHead className="text-center">Amount</TableHead>
-            <TableHead className="text-center">Created Date</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {expensesData.map((data) => (
-            <TableRow key={data.expeneseId}>
-              <TableCell className="font-medium">
-                {data.expenseDescription}
-              </TableCell>
-              <TableCell className="text-center">
-                {data.expenseAmount}
-              </TableCell>
-              <TableCell className="text-center">
-                {new Date(data.expenseDate).toLocaleDateString()}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Card>
+    <div className="w-full">
+      <Card className="rounded-xl">
+        <CardHeader>
+          <CardTitle className="text-2xl">Expenses List</CardTitle>
+          <CardDescription>Here's all the expenses you have</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md border">
+            <Table className="min-h-[320px]">
+              <TableHeader className="bg-gray-50">
+                <TableRow>
+                  <TableHead className="w-[100px]">
+                    Expense Description
+                  </TableHead>
+                  <TableHead className="text-center">Amount</TableHead>
+                  <TableHead className="text-center">Created Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {expensesData.map((data) => (
+                  <TableRow key={data.expeneseId}>
+                    <TableCell className="font-medium">
+                      {data.expenseDescription}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      ${data.expenseAmount}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {new Date(data.expenseDate).toLocaleDateString()}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

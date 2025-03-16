@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
+  CardContent,
 } from "@/components/ui/card";
 import { DeleteExpenseButton, EditExpenseButton } from "./ui/expenseButtons";
 
@@ -24,8 +25,8 @@ export default async function expensesTable() {
   const expensesData = await fetchOwnedExpensesList(userId); // Fetching expenses data
 
   return (
-    <Card className="rounded-xl m-15 ">
-      <div className="grid grid-cols-1">
+    <div className="w-full">
+      <Card className="rounded-xl">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="text-2xl">Expenses List</CardTitle>
@@ -35,41 +36,40 @@ export default async function expensesTable() {
             Here you can create, edit & delete your expenses
           </CardDescription>
         </CardHeader>
-
-        <Table className="min-h-[320px] max-w-[95%] mx-auto">
-          <TableHeader className="bg-gray-100">
-            <TableRow>
-              <TableHead className="w-[100px] text-center">
-                Expense Description
-              </TableHead>
-              <TableHead className="text-center">Amount</TableHead>
-              <TableHead className="text-right">Date</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {expensesData.map((data) => (
-              <TableRow key={data.expeneseId}>
-                <TableCell className="font-medium text-center">
-                  {data.expenseDescription}
-                </TableCell>
-                <TableCell className="text-center">
-                  {data.expenseAmount}
-                </TableCell>
-                <TableCell className="text-right">
-                  {new Date(data.expenseDate).toLocaleDateString()}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end">
-                    <EditExpenseButton id={data.expeneseId} />
-                    <DeleteExpenseButton id={data.expeneseId} />
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    </Card>
+        <CardContent>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader className="bg-gray-50">
+                <TableRow>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {expensesData.map((data) => (
+                  <TableRow key={data.expeneseId}>
+                    <TableCell className="font-medium">
+                      {data.expenseDescription}
+                    </TableCell>
+                    <TableCell>${data.expenseAmount}</TableCell>
+                    <TableCell>
+                      {new Date(data.expenseDate).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex justify-end pr-5">
+                        <EditExpenseButton id={data.expeneseId} />
+                        <DeleteExpenseButton id={data.expeneseId} />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

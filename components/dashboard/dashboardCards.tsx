@@ -18,44 +18,41 @@ export default async function DashboardCards() {
   const data = await fetchCardData(userId); // Fetching expenses data
   return (
     <>
-      <Card className="col-span-2 p-6 rounded-xl bg-white h-[170px]">
+      <Card className="col-span-2 p-6 rounded-xl bg-white min-h-full">
         <CardHeader>
           <CardTitle>Total Expenses</CardTitle>
+          <CardDescription>All your expenses</CardDescription>
         </CardHeader>
         <CardContent className="text-left">
-          <p className="text-2xl font-bold text-gray-900">
+          <p className="font-semibold text-2xl text-gray-900">
             ${data.totalExpenses}
           </p>
         </CardContent>
       </Card>
 
-      <Card className="col-span-2 p-6 rounded-xl bg-white h-[170px]">
+      <Card className="col-span-2 p-6 rounded-xl bg-white min-h-full">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-700">
-            Most Expensive Item
-          </CardTitle>
+          <CardTitle>Most Expensive Item</CardTitle>
+          <CardDescription>Your most expensive purchase</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2 text-left">
-          <p className="text-lg font-medium text-gray-800">
+          <p className="font-semibold text-2xl text-gray-900">
+            ${data.mostExpensiveItem.Amount} - {""}
             {data.mostExpensiveItem.Description}
-          </p>
-          <p className="text-2xl font-bold text-red-600">
-            ${data.mostExpensiveItem.Amount}
           </p>
         </CardContent>
       </Card>
 
-      <Card className="col-span-2 p-6 rounded-xl bg-white h-[170px]">
+      <Card className="col-span-2 p-6 rounded-xl bg-white min-h-full">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-700">
-            Latest Expense
-          </CardTitle>
+          <CardTitle>Latest Expense</CardTitle>
+          <CardDescription>Your most recent purchase</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2 text-left">
-          <p className="text-2xl font-bold text-blue-600">
+          <p className="font-semibold text-2xl text-gray-900 ">
+            {data.latestExpense.Description} - {""}
             {new Date(data.latestExpense.Date).toLocaleDateString()}
           </p>
-          <p className="text-xl">{data.latestExpense.Description}</p>
         </CardContent>
       </Card>
     </>
